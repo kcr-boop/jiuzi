@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>鸠兹听澜 · 工作人员端</title>
+<style>
+:root{--canvas:#faf9f5;--soft:#f5f0e8;--card:#fff;--line:#e6dfd8;--ink:#141413;--body:#3d3d3a;--muted:#6c6a64;--pri:#cc785c;--deep:#a9583e;--seal:#b8442c;--dark:#181715}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--body);font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;line-height:1.65;-webkit-text-size-adjust:100%}
+.serif{font-family:"Noto Serif SC","Songti SC","STSong","SimSun",serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 40px}
+header{display:flex;align-items:center;gap:10px;padding:4px 0 14px}
+.logo{width:34px;height:34px;color:var(--deep);flex:none}
+.brand{font-weight:800;color:var(--ink);font-size:17px;line-height:1.3}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.back{margin-left:auto;font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.kicker{color:var(--pri);font-weight:800;font-size:13px;letter-spacing:.12em;margin:8px 0 4px}
+h1{font-size:28px;line-height:1.3;color:var(--ink);font-weight:900}
+.lead{margin:8px 0 14px;font-size:15px}
+.video{background:var(--dark);border-radius:12px;overflow:hidden;box-shadow:0 10px 24px rgba(20,20,19,.14)}
+video{display:block;width:100%;aspect-ratio:16/9;background:var(--dark)}
+.hint{font-size:12px;color:var(--muted);margin:6px 2px 0}
+h3{font-size:17px;color:var(--ink);margin:20px 0 8px}
+.chapters{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chapters button{all:unset;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:14px;color:var(--ink);line-height:1.4}
+.chapters button b{display:block;color:var(--deep);font-size:12px;font-family:ui-monospace,Consolas,monospace}
+.chapters button.on{border-color:var(--pri);background:#fbeee8}
+.note{background:var(--soft);border-radius:12px;padding:14px 16px;margin-top:18px;font-size:14px}
+.note b{color:var(--ink)}
+.btn{display:block;text-align:center;margin-top:18px;background:var(--pri);color:#fff;text-decoration:none;font-weight:800;padding:13px;border-radius:12px;font-size:16px}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:16px}
+@media (max-width:380px){h1{font-size:24px}.chapters{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 19c3-5 6-5 9 0s6 5 9 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 13c2.5-3.2 4.8-3.2 7 0s4.5 3.2 7 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
+    <div class="brand">鸠兹听澜 · 工作人员端<small>12345 工单研判工作台 · 演示视频</small></div>
+    <a class="back" href="citizen.html?t=260718111203074&amp;tab=card">← 市民端</a>
+  </header>
+
+  <div class="kicker">给坐席和派单员用 · 电脑版</div>
+  <h1 class="serif">派单前判得清，<br>发出前对得上</h1>
+  <p class="lead">工作人员端挂在现有 12345 系统旁边：派单前给出研判卡（谁主办、谁协办、凭哪条依据），答复发出前逐项核对。下面的演示视频约 3 分钟，有旁白和字幕，画面取自演示应用与极智平台的真实运行界面，案例是芜湖 12345 官方示例工单（已脱敏）。</p>
+
+  <div class="video">
+    <video id="v" controls playsinline preload="metadata" poster="media/workbench_poster.jpg">
+      <source src="media/workbench_full.mp4" type="video/mp4">
+    </video>
+  </div>
+  <p class="hint">约 16 MB，边下边播；点下面的章节可以直接跳到对应画面。</p>
+
+  <h3 class="serif">视频里依次是</h3>
+  <div class="chapters" id="ch">
+    <button data-t="18"><b>0:18</b>一通真实来电：五方都说不归自己管</button>
+    <button data-t="28"><b>0:28</b>JEV 分流；录音、截图直接进</button>
+    <button data-t="58"><b>0:58</b>结论：需人工定责，不硬猜部门</button>
+    <button data-t="74"><b>1:14</b>每条依据逐字核对原文</button>
+    <button data-t="90"><b>1:30</b>生成答复，发出前逐项对照</button>
+    <button data-t="106"><b>1:46</b>半秒查出官方答复里的误引</button>
+    <button data-t="114"><b>1:54</b>新法规经 MinerU 按条入库</button>
+    <button data-t="130"><b>2:10</b>18 件官方工单回放：0 漏拦</button>
+    <button data-t="138"><b>2:18</b>极智平台 49 节点 · 批量研判 · 险情</button>
+    <button data-t="166"><b>2:46</b>同样的能力开放给市民</button>
+  </div>
+
+  <div class="note"><b>这里是演示视频，不能直接操作工作台。</b>可操作的完整工作台（18 件官方工单研判、答复生成、法条引用核验、评测看板）在展位笔记本上；正式部署在政务云内，挂在坐席工作台侧栏，只给建议、不替人派单和发答复。</div>
+
+  <a class="btn" href="citizen.html?t=260718111203074&amp;tab=card">回到市民端，自己试一试 →</a>
+  <p class="foot">息壤杯人工智能 OPC 创新大赛 · 惠民产品创新赛道 · 禾安团队</p>
+</div>
+<script>
+const v = document.getElementById("v"), btns = [...document.querySelectorAll("#ch button")];
+btns.forEach(b => b.onclick = () => { v.currentTime = +b.dataset.t; v.play().catch(() => {}); v.scrollIntoView({ behavior: "smooth", block: "center" }); });
+v.addEventListener("timeupdate", () => {
+  let cur = -1;
+  btns.forEach((b, i) => { if (v.currentTime >= +b.dataset.t - 0.3) cur = i; });
+  btns.forEach((b, i) => b.classList.toggle("on", i === cur));
+});
+</script>
+</body>
+</html>
