@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf9f5">
+<title>鸠兹听澜 · 市民端</title>
+<style>
+:root{
+  --canvas:#faf9f5; --soft:#f5f0e8; --card:#efe9de; --strong:#e8e0d2; --line:#e6dfd8;
+  --ink:#141413; --body:#3d3d3a; --muted:#6c6a64;
+  --primary:#cc785c; --primary-deep:#a9583e; --seal:#b8442c;
+  --dark:#181715; --on-dark:#faf9f5;
+  --s-ok:#4f9a6a; --s-conflict:#d98c3a; --s-insuf:#4a7fb0; --s-na:#8e8b82;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","Noto Sans SC","Source Han Sans SC","Microsoft YaHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--canvas);color:var(--body);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 40px}
+header{display:flex;align-items:center;gap:10px;padding:14px 0 6px}
+.logo{width:30px;height:30px;color:var(--primary-deep);flex:none}
+.brand{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:17px;letter-spacing:.5px}
+.brand small{display:block;font-family:var(--sans);font-weight:400;font-size:11.5px;color:var(--muted);letter-spacing:.3px}
+.staff{margin-left:auto;font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.hero{padding:18px 0 14px}
+.kicker{color:var(--primary);font-size:12.5px;letter-spacing:2px;font-weight:600}
+h1{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:30px;line-height:1.25;margin:6px 0 8px}
+.hero p{margin:0;color:var(--muted);font-size:14px}
+.seal{display:inline-block;border:2px solid var(--seal);color:var(--seal);font-family:var(--serif);font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;transform:rotate(-4deg);margin-left:6px;vertical-align:4px}
+.tabs{position:sticky;top:0;z-index:5;background:var(--canvas);display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 4px;cursor:pointer;line-height:1.3}
+.tabs button b{display:block;font-family:var(--serif);font-size:16px;color:var(--ink)}
+.tabs button span{font-size:11.5px;color:var(--muted)}
+.tabs button.on{background:var(--dark);border-color:var(--dark)}
+.tabs button.on b{color:var(--on-dark)} .tabs button.on span{color:#c9c4ba}
+.pane{display:none;padding-top:16px} .pane.on{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.card.soft{background:var(--soft)}
+.card h3{font-family:var(--serif);color:var(--ink);font-size:18px;margin:0 0 8px}
+.lead{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--canvas);resize:vertical;line-height:1.6}
+textarea:focus,input:focus{outline:2px solid #e6c2b2;border-color:var(--primary)}
+.mm{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.mm label{border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font-weight:600;color:var(--ink)}
+.mm-hint{font-size:12.5px;color:var(--muted);margin-top:6px;min-height:1em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px dashed #d8cbbd;background:transparent;border-radius:999px;padding:4px 10px;font-size:12.5px;color:var(--primary-deep);cursor:pointer}
+.btn{display:block;width:100%;border:0;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;font-size:16px;padding:13px;cursor:pointer;margin-top:10px}
+.btn:active{background:var(--primary-deep)}
+.btn.ghost{background:transparent;color:var(--primary-deep);border:1px solid #e3c9bb}
+.verdict{border-radius:16px;padding:16px;color:#fff;margin-bottom:12px}
+.verdict .t{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.35}
+.verdict .d{font-size:14px;opacity:.95;margin-top:6px}
+.v-ready{background:var(--s-ok)} .v-almost{background:#6f9a63} .v-incomplete{background:var(--s-insuf)} .v-redirect{background:var(--s-na)} .v-emergency{background:var(--seal)}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.mark{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;margin-top:1px}
+.m-ok{background:var(--s-ok)} .m-no{background:var(--seal)} .m-part{background:var(--s-conflict)} .m-supp{background:#c9b7a6}
+.li-t{font-weight:600;color:var(--ink)}
+.li-d{font-size:13.5px;color:var(--body)}
+.li-e{font-size:12.5px;color:var(--muted);margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600;color:#fff}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;opacity:.85}
+.st-answerable{background:var(--s-ok)} .st-conflict{background:var(--s-conflict)} .st-insufficient{background:var(--s-insuf)} .st-not_applicable{background:var(--s-na)}
+.who{display:grid;gap:8px}
+.who .u{background:var(--soft);border-radius:12px;padding:10px 12px}
+.who .u b{font-family:var(--serif);color:var(--ink);font-size:16px}
+.who .u .r{font-size:12.5px;color:var(--muted)}
+.tag{display:inline-block;font-size:11.5px;border-radius:6px;padding:1px 7px;margin-right:4px;background:var(--strong);color:var(--body)}
+.quote{border-left:4px solid var(--primary);background:var(--soft);padding:8px 12px;border-radius:0 10px 10px 0;font-size:13.5px;margin:6px 0}
+.quote .src{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.timeline{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--strong)}
+.timeline li{position:relative;padding:4px 0 8px 8px;font-size:14px}
+.timeline li::before{content:"";position:absolute;left:-21px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--primary)}
+.picker{display:flex;gap:8px}
+.picker input{flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+.picker button{border:0;border-radius:12px;background:var(--dark);color:var(--on-dark);padding:0 14px;cursor:pointer}
+.tlist{max-height:300px;overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.tlist div{padding:10px 12px;border-top:1px solid var(--line);font-size:13.5px;cursor:pointer}
+.tlist div:first-child{border-top:0}
+.tlist div:active,.tlist div.on{background:var(--soft)}
+.tlist small{color:var(--muted)}
+.big{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);line-height:1}
+.score{display:flex;gap:14px;align-items:flex-end;margin:4px 0 8px}
+.score div{font-size:13px;color:var(--muted)}
+.say{background:var(--dark);color:var(--on-dark);border-radius:14px;padding:14px;font-size:14.5px}
+.say b{color:#f0b9a3;font-family:var(--serif)}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 0;line-height:1.7}
+.loading{padding:30px 0;text-align:center;color:var(--muted)}
+.hidden{display:none!important}
+@media (max-width:380px){h1{font-size:26px}.tabs button b{font-size:15px}}
+.mm,.mm-hint{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 19c3-5 6-5 9 0s6 5 9 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 13c2.5-3.2 4.8-3.2 7 0s4.5 3.2 7 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
+    <div class="brand">鸠兹听澜 · 市民端<small>12345 诉求助手 · 演示版</small></div>
+    <span class="staff">公网演示版</span>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">说得清 · 看得见 · 对得上</div>
+    <h1>让您的 12345，<br>看得见<span class="seal">可核验</span></h1>
+    <p>打电话前先帮您把事情说清楚；派单后告诉您谁来办、凭什么；收到答复后帮您逐项核对，每件事都有没有回应。</p>
+  </section>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="pre" class="on"><b>说得清</b><span>① 诉求预检</span></button>
+    <button data-tab="card"><b>看得见</b><span>② 派单明白卡</span></button>
+    <button data-tab="match"><b>对得上</b><span>③ 答复对照</span></button>
+  </nav>
+
+  <!-- ① 诉求预检 -->
+  <section class="pane on" id="pane-pre">
+    <div class="card">
+      <h3>您遇到了什么问题？</h3>
+      <p class="lead">用自己的话说就行。提交前，系统帮您看看：是不是 12345 管、可能由谁负责、还缺哪些信息。</p>
+      <textarea id="preText" placeholder="例如：我家楼下的消防栓被车撞坏了，一直在流水，好几个人滑倒了，希望尽快修好。"></textarea>
+      <div class="mm"><label>🎤 说一段语音<input type="file" id="cAudio" accept="audio/*" capture hidden></label><label>📷 拍照 / 截图<input type="file" id="cImg" accept="image/*" hidden></label></div>
+      <div class="mm-hint" id="mmHint"></div>
+      <div class="chips" id="preChips"></div>
+      <button class="btn" id="preBtn">帮我看看</button>
+    </div>
+    <div id="preOut"></div>
+  </section>
+
+  <!-- ② 派单明白卡 -->
+  <section class="pane" id="pane-card">
+    <div class="card soft">
+      <h3>查询我的工单</h3>
+      <p class="lead">演示版用大赛公开的 18 件芜湖 12345 官方工单代替「我的工单」。正式版凭工单号 + 短信验证，只能看自己的。</p>
+      <div class="picker"><input id="tidInput" inputmode="numeric" placeholder="输入工单号，或从下面选一件"><button id="tidBtn">查询</button></div>
+      <div class="tlist" id="tlist"></div>
+    </div>
+    <div id="cardOut"></div>
+  </section>
+
+  <!-- ③ 答复对照 -->
+  <section class="pane" id="pane-match">
+    <div class="card soft">
+      <h3>收到答复了？逐项核对一下</h3>
+      <p class="lead">把您的每一项诉求和答复对照：哪件事有回应、哪件事没提到；答复里引用的法规是否存在、是否还有效。</p>
+      <div id="matchPick" class="lead"></div>
+      <button class="btn ghost" id="toPick">选择工单</button>
+    </div>
+    <div id="matchOut"></div>
+  </section>
+
+  <p class="note">所有内容为辅助参考：是否受理、派给哪个部门、如何办理，以 12345 正式受理与答复为准。<br>您输入的手机号、身份证号会自动隐藏。演示数据为大赛公开的已脱敏示例工单。</p>
+</div>
+
+<script src="precheck.js"></script>
+<script>
+/* 公网静态版：把原来请求后端 API 的地方改成读静态 JSON / 本地计算（页面其余部分与在线版一致） */
+(function () {
+  const raw = window.fetch.bind(window);
+  const J = o => new Response(JSON.stringify(o), { headers: { "Content-Type": "application/json" } });
+  const ready = raw("data/precheck.json").then(r => r.json()).then(d => JZ.init(d));
+  const file = (path, miss) => raw(path).then(r => r.ok ? r : J({ error: miss }));
+  window.fetch = async function (url, opt) {
+    const u = String(url);
+    let m;
+    if (u === "/api/precheck") { await ready; return J(JZ.precheck(JSON.parse(opt.body).text)); }
+    if (u === "/api/citizen/samples") return raw("data/samples.json");
+    if ((m = u.match(/^\/api\/citizen\/card\/(\w+)/))) return file(`data/card/${m[1]}.json`, "演示版只能查询列出的 18 件官方工单。");
+    if ((m = u.match(/^\/api\/reply_check\/(\w+)/))) return file(`data/reply/${m[1]}.json`, "演示版只能核对列出的 18 件官方工单。");
+    if (u.startsWith("/api/")) return J({ error: "公网演示版不支持这项功能，展位离线版可以体验。" });
+    return raw(url, opt);
+  };
+})();
+</script>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ST = { answerable: "可直接派单", conflict: "需人工确定责任", insufficient: "需先补充信息", not_applicable: "不属 12345 转办" };
+const C = { tid: null, samples: [] };
+
+/* 标签切换 */
+function tab(name) {
+  $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
+  $$(".pane").forEach(p => p.classList.toggle("on", p.id === "pane-" + name));
+  if (name === "match") showMatch();
+  window.scrollTo({ top: $("#tabs").offsetTop - 2, behavior: "smooth" });
+}
+$$("#tabs button").forEach(b => b.onclick = () => tab(b.dataset.tab));
+
+/* ① 诉求预检 */
+const EXAMPLES = [
+  ["说不清的", "我们这边晚上一直有人摆摊，太吵了，管一管。"],
+  ["不归 12345 的", "我在合肥市经济技术开发区买的车，厂家答应装充电桩一直不来装，要求尽快安装。"],
+  ["民事纠纷", "我和一家公司签了车辆抵押贷款合同，现在提前结清要多付一万多违约金，要求减免违约利息。"],
+  ["比较完整的", "我是王先生，电话13912345678。7月15日下午在南陵县籍山镇和顺紫悦府对面的立新理发店洗头花了20元，店里没看到营业执照，希望核实整改。"],
+];
+$("#preChips").innerHTML = EXAMPLES.map((e, i) => `<button class="chip" data-i="${i}">试试：${e[0]}</button>`).join("");
+$$("#preChips .chip").forEach(b => b.onclick = () => { $("#preText").value = EXAMPLES[b.dataset.i][1]; $("#preBtn").click(); });
+$("#preBtn").onclick = async () => {
+  const text = $("#preText").value.trim();
+  if (text.length < 4) { $("#preOut").innerHTML = '<div class="card">请先说说您遇到的问题。</div>'; return; }
+  $("#preOut").innerHTML = '<div class="loading">正在帮您看……</div>';
+  const r = await fetch("/api/precheck", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(x => x.json());
+  if (r.error) { $("#preOut").innerHTML = `<div class="card">${esc(r.error)}</div>`; return; }
+  let h = `<div class="verdict v-${r.level}"><div class="t">${esc(r.headline)}</div>${r.advice ? `<div class="d">${esc(r.advice)}</div>` : ""}</div>`;
+  if (r.level === "emergency") { $("#preOut").innerHTML = h; return; }
+  const b = r.boundary || {};
+  if (b.type) h += `<div class="card"><h3>${b.ok ? "提醒" : "这件事可能不归 12345 转办"}</h3><div class="li-d">${esc(b.text)}</div><div class="quote">${esc(b.route)}</div></div>`;
+  const miss = r.checklist.filter(c => !c.ok), okk = r.checklist.filter(c => c.ok);
+  if (r.checklist.length) h += `<div class="card"><h3>${miss.length ? "建议补充这些信息" : "关键信息都有了"}</h3><ul class="list">
+    ${miss.map(c => `<li><span class="mark ${c.need === "阻断必填" ? "m-no" : "m-supp"}">${c.need === "阻断必填" ? "!" : "+"}</span><div><div class="li-t">${esc(c.name)}${c.need === "阻断必填" ? ' <span class="tag">必填</span>' : ""}</div><div class="li-d">${esc(c.ask)}</div><div class="li-e">${esc(c.example)}</div><div class="li-e">不补的话：${esc(c.why)}</div></div></li>`).join("")}
+    ${okk.map(c => `<li><span class="mark m-ok">✓</span><div><div class="li-t">${esc(c.name)}</div></div></li>`).join("")}</ul></div>`;
+  if (r.level !== "redirect" && r.units && r.units.length) h += `<div class="card"><h3>可能由谁负责</h3><div class="who">${r.units.map(u => `<div class="u"><b>${esc(u.level1)}</b><div>${esc(u.dept)}</div>${u.assist ? `<div class="r">可能配合：${esc(u.assist)}</div>` : ""}${u.boundary ? `<div class="r">注意：${esc(u.boundary)}</div>` : ""}</div>`).join("")}</div><div class="li-e" style="margin-top:8px">依据芜湖市权责清单，最终以 12345 派单为准。</div></div>`;
+  if (r.tips && r.tips.length) h += `<div class="card soft">${r.tips.map(t => `<div class="li-d" style="margin:4px 0">· ${esc(t)}</div>`).join("")}</div>`;
+  $("#preOut").innerHTML = h;
+};
+
+async function cUpload(input, url, label) {
+  const f = input.files[0]; if (!f) return;
+  const fd = new FormData(); fd.append("file", f);
+  $("#mmHint").textContent = `正在识别${label}……`;
+  const r = await fetch(url, { method: "POST", body: fd }).then(x => x.json()).catch(() => ({ error: "识别失败" }));
+  input.value = "";
+  if (r.error) { $("#mmHint").textContent = r.error; return; }
+  $("#preText").value = r.text;
+  $("#mmHint").textContent = `已把${label}转成文字，请看一下有没有听错、认错，再点「帮我看看」。`;
+}
+$("#cAudio").onchange = e => cUpload(e.target, "/api/transcribe", "语音");
+$("#cImg").onchange = e => cUpload(e.target, "/api/ocr", "图片");
+
+/* 工单列表（② ③ 共用） */
+async function loadSamples() {
+  C.samples = await fetch("/api/citizen/samples").then(x => x.json());
+  $("#tlist").innerHTML = C.samples.map(s => `<div data-id="${s.id}">${esc(s.title.replace(/^（加急）/, ""))}<br><small>${s.id} · ${esc(s.region || "")} · ${esc(s.major || "")}</small></div>`).join("");
+  $$("#tlist div").forEach(d => d.onclick = () => pick(d.dataset.id));
+  const want = new URLSearchParams(location.search).get("t");
+  if (want) { C.deep = true; pick(want); tab(new URLSearchParams(location.search).get("tab") || "card"); }
+}
+function pick(id) {
+  C.tid = id; $("#tidInput").value = id;
+  $$("#tlist div").forEach(d => d.classList.toggle("on", d.dataset.id === id));
+  showCard();
+  if ($("#pane-match").classList.contains("on")) showMatch();
+}
+$("#tidBtn").onclick = () => { const v = $("#tidInput").value.trim(); if (C.samples.some(s => s.id === v)) pick(v); else $("#cardOut").innerHTML = '<div class="card">演示版只能查询上面列出的 18 件官方工单。</div>'; };
+$("#toPick").onclick = () => tab("card");
+
+/* ② 派单明白卡 */
+async function showCard() {
+  $("#cardOut").innerHTML = '<div class="loading">正在生成明白卡……</div>';
+  const r = await fetch(`/api/citizen/card/${C.tid}`).then(x => x.json());
+  if (r.error) { $("#cardOut").innerHTML = `<div class="card">${esc(r.error)}</div>`; return; }
+  const p = r.primary || {};
+  let h = `<div class="card"><div class="li-e">${r.id}</div><h3>${esc(r.title.replace(/^（加急）/, ""))}</h3>
+    <span class="pill st-${r.state}">${ST[r.state]}</span><div class="li-d" style="margin-top:10px">${esc(r.plain)}</div></div>`;
+  if (r.demands.length) h += `<div class="card"><h3>您的 ${r.demands.length} 件事，分别怎么处理</h3><ul class="list">${r.demands.map((d, i) => `<li><span class="mark ${d.state === "answerable" ? "m-ok" : d.state === "not_applicable" ? "m-supp" : "m-part"}">${i + 1}</span><div><div class="li-t">${esc(d.demand)}</div><div class="li-d"><span class="pill st-${d.state}" style="font-size:12px;padding:1px 8px">${ST[d.state] || ""}</span></div>${d.note ? `<div class="li-e">${esc(d.note)}</div>` : ""}</div></li>`).join("")}</ul></div>`;
+  if (r.state !== "not_applicable" && p.unit) h += `<div class="card"><h3>谁来办</h3><div class="who"><div class="u"><span class="tag">牵头</span><b>${esc(p.unit)}</b><div class="r">${esc(p.dept || "")}</div></div>
+    ${(r.assist || []).map(a => `<div class="u"><span class="tag">配合</span><b>${esc(a.unit)}</b><div class="r">负责：${esc(a.reason || "")}</div></div>`).join("")}</div>
+    <div class="li-e" style="margin-top:8px">每个配合单位都写明了负责哪件事——不让问题在部门之间来回推。</div></div>`;
+  if (r.state === "not_applicable" && r.route) h += `<div class="card"><h3>建议您这样办</h3><div class="quote">${esc(r.route)}</div></div>`;
+  if (r.followups && r.followups.length) h += `<div class="card"><h3>还需要您补充</h3><ul class="list">${r.followups.map(f => `<li><span class="mark m-no">!</span><div class="li-d">${esc(f)}</div></li>`).join("")}</ul></div>`;
+  if (r.evidence.length) h += `<div class="card"><h3>凭什么这样派</h3>${r.evidence.map(e => `<div class="quote">「${esc(e.quote)}」<span class="src">${esc(e.title)}${esc(e.clause)} · ${esc(e.status)}</span></div>`).join("")}</div>`;
+  if (r.state !== "not_applicable") h += `<div class="card"><h3>什么时候有回音</h3><ul class="timeline">${r.timeline.map(t => `<li>${esc(t)}</li>`).join("")}</ul><div class="li-e">${esc(r.time_basis)}</div></div>`;
+  if (r.repeat && r.repeat.is_repeat) h += `<div class="card soft"><div class="li-d">系统识别到您此前反映过这件事${(r.repeat.history_ids || []).length ? `（工单 ${esc(r.repeat.history_ids.join("、"))}）` : ""}，会和上一次的工单、答复一并处理，不用从头再说。</div></div>`;
+  h += `<button class="btn ghost" onclick="tab('match')">收到答复后，逐项核对 →</button>`;
+  $("#cardOut").innerHTML = h;
+  // 带工单号打开（模拟市民收到的短信链接）：直接把明白卡滚到眼前，只滚一次
+  if (C.deep && $("#pane-card").classList.contains("on")) { C.deep = false; const tb = document.querySelector(".tabs"); $("#cardOut").style.scrollMarginTop = ((tb ? tb.offsetHeight : 0) + 8) + "px"; $("#cardOut").scrollIntoView({ behavior: "smooth", block: "start" }); }
+}
+
+/* ③ 答复对照 */
+async function showMatch() {
+  if (!C.tid) { $("#matchPick").textContent = "请先在「看得见」里选择一件工单。"; $("#matchOut").innerHTML = ""; return; }
+  const s = C.samples.find(x => x.id === C.tid);
+  $("#matchPick").textContent = `正在核对：${s ? s.title.replace(/^（加急）/, "") : C.tid}`;
+  $("#matchOut").innerHTML = '<div class="loading">逐项核对中……</div>';
+  const r = await fetch(`/api/reply_check/${C.tid}`).then(x => x.json());
+  if (r.error) { $("#matchOut").innerHTML = `<div class="card">${esc(r.error)}</div>`; return; }
+  const m = r.match, n = m.counts;
+  const icon = { "已回应": ["m-ok", "✓"], "部分回应": ["m-part", "◐"], "未回应": ["m-no", "✗"] };
+  let h = `<div class="card"><div class="score"><span class="big">${n["已回应"]}<span style="font-size:22px;color:var(--muted)">/${m.items.length}</span></span><div>件事在答复里<br>有明确回应</div></div>
+    <div class="li-d">${esc(m.plain)}</div></div>`;
+  h += `<div class="card"><h3>逐项对照</h3><ul class="list">${m.items.map(o => `<li><span class="mark ${icon[o.status][0]}">${icon[o.status][1]}</span><div>
+      <div class="li-t">${esc(o.demand)}${o.source === "附带问题" ? ' <span class="tag">您还提到</span>' : ""}</div>
+      <div class="li-d">${o.status}${o.note ? `：${esc(o.note)}` : ""}</div>
+      ${o.response_quote ? `<div class="quote">「${esc(o.response_quote)}」<span class="src">答复原文</span></div>` : ""}</div></li>`).join("")}</ul></div>`;
+  const miss = m.items.filter(o => o.status !== "已回应");
+  if (miss.length) h += `<div class="say">回访时，您可以这样说：<br><b>「我反映的${miss.map(o => `第 ${o.idx} 项（${esc((o.demand || "").slice(0, 16))}）`).join("、")}，答复里${miss.some(o => o.status === "未回应") ? "没有提到" : "没有给出明确结论"}，请帮我再跟进一下。」</b></div>`;
+  const c = r.cite.summary;
+  h += `<div class="card" style="margin-top:12px"><h3>答复里引用的法规</h3>${c.total === 0 ? '<div class="li-d">这份答复没有引用具体法规条款。</div>' :
+    r.cite.items.map(i => `<div class="quote">${esc(i.cite)}<span class="src">${i.status === "ok" ? "✓ 条款存在，引述与原文相符，现行有效" : i.status === "repealed" ? "✗ 这部法规已废止" : i.status === "mismatch" ? "✗ 引述内容与该条原文对不上" + (i.suggest && i.suggest[0] ? `，更可能出自${esc(i.suggest[0].title)}${esc(i.suggest[0].article)}` : "") : i.status === "no_article" ? "✗ 该法规没有这一条" : "库内未收录，无法核对"}</span></div>`).join("")}</div>`;
+  $("#matchOut").innerHTML = h;
+}
+
+loadSamples();
+</script>
+</body>
+</html>
